@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { Button, Image, Text, TextInput, View } from 'react-native';
+import { Button, Image, ScrollView, Text, TextInput, View } from 'react-native';
 
 //  function component: i initialilze component 
 //  as a function:
@@ -15,9 +15,41 @@ import { Button, Image, Text, TextInput, View } from 'react-native';
    which i extend the class with, and then invoke 
    in the render function (from library), which returns 
    everythinf inside of it as a react element; 
-*/ 
+*/  
+const logo = { 
+  uri: 'https://reactnative.dev/img/tiny_logo.png', 
+  width: 64, 
+  height: 64
+} 
+
+const App = () => (  
+  <>
+    <Text style={{ fontSize: 96 }}>Scroll me plz</Text>
+    <Image source={logo} />
+    <Image source={logo} />
+    <Image source={logo} />
+    <Image source={logo} />
+    <Image source={logo} />
+    <Text style={{ fontSize: 96 }}>If you like</Text>
+    <Image source={logo} />
+    <Image source={logo} />
+    <Image source={logo} />
+    <Image source={logo} />
+    <Image source={logo} />
+    <Text style={{ fontSize: 96 }}>Scrolling down</Text>
+    <Image source={logo} />
+    <Image source={logo} />
+    <Image source={logo} />
+    <Image source={logo} />
+    <Image source={logo} />
+    <Text style={{ fontSize: 96 }}>What's the best</Text> 
+  </> 
+)
+
 class Cat extends Component { 
-  
+  //  in class components, states are stored in state objects
+  state = { isHungry: true }; 
+
   //  variables must be placed under "render()"
   render() { 
     const name = "mario"; 
@@ -39,9 +71,22 @@ class Cat extends Component {
             width: 100
           }}
         />
-        <Text> 
-          Hello i am classy {getFullName(name, secondName)} 
+        <Text>  
+          {/*  
+            is use "this.state." to access the state object
+          */}
+          Hello i am classy {getFullName(name, secondName)}, and i am {this.state.isHungry ? "hungry" : "full"} 
         </Text> 
+        <Button 
+        onPress={() => {  
+          //  "this.setState()" sets value for the individual state object called inside of it
+          this.setState({ isHungry: false });
+        }} 
+        disabled={!this.state.isHungry}
+        title={ 
+          this.state.isHungry ? "pourr me milk, please!" : "thank you!"
+        }
+        />
         <TextInput 
           style={{ 
             height: 40, 
@@ -63,7 +108,14 @@ class Cat extends Component {
   they must be wrapped in curly braces. 
   in general, props are used to configure component as i renders.
 */
-const CatFunction = (props) => { 
+const CatFunction = (props) => {  
+  /*  
+    declare component's state by calling useState() function 
+    insisde its function; useState() returns a state variable with a set value, 
+    and a state function to modify it. 
+    states are generally used to keep track of components' data which is 
+    expected to change over time
+  */
   const [isHungry, setIsHungry] = useState(true); 
 
   return ( 
@@ -74,12 +126,37 @@ const CatFunction = (props) => {
       <Button 
       onPress={ 
         () => { 
-          setIsHungry(false);
+          setIsHungry(false); 
+          /*  
+            because setIsHungry() is a state-setting function,  when it fires, 
+            it can rerender the const isHungry, assigning it its next value 
+          */
         }
       } 
       disabled={!isHungry}
       title={ isHungry ? 'pourr some milk please' : 'thank you!'}
       />
+    </View>
+  );
+} 
+
+const PizzaTranslator = () => { 
+  const [text, setText] = useState(''); 
+
+  return ( 
+    <View style={{padding: 40}}> 
+      <TextInput 
+      style={{height: 40}}
+      placeholder="type here to translate"
+      onChangeText={newText => setText(newText)}
+      defaultValue={text}
+      /> 
+      <Text style={{ 
+        padding: 10, 
+        fontSize: 42 
+      }}> 
+        {text.split(' ').map((word) => word && 'O').join('')}
+      </Text>
     </View>
   );
 }
@@ -92,7 +169,12 @@ class Cafe extends Component {
       child component  
     */
     return ( 
-      <View> 
+      /* 
+        "<>" and < />" are JSX fragments. adjacent JSX elements must be 
+        wrapped by in an enclosing tag. fragments allow that wihtout nesting 
+        an extra View wrapping elme.
+      */
+      <ScrollView> 
         <Text> 
           Welcome!
         </Text>  
@@ -102,11 +184,13 @@ class Cafe extends Component {
         food={["fish", "kibble"]} 
         age={2}/> 
         <CatFunction name="leone" />
-        <CatFunction name="eustache" />
-      </View>
+        <CatFunction name="eustache" /> 
+        <PizzaTranslator /> 
+        <App />
+      </ScrollView>
     );
   }
-}
+} 
 
 //  "export" is used to make the function/class 
 //  available to the whole project:
