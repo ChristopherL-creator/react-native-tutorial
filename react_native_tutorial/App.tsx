@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { Button, Image, ScrollView, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, Image, ScrollView, SectionList, StyleSheet, Text, TextInput, View } from 'react-native';
 
 //  function component: i initialilze component 
 //  as a function:
@@ -21,6 +21,106 @@ const logo = {
   width: 64, 
   height: 64
 } 
+
+const styles = StyleSheet.create({ 
+  container: { 
+    flex: 1, 
+    paddingTop: 22
+  }, 
+  item: { 
+    padding: 10, 
+    fontSize: 18, 
+    height: 44
+  }, 
+  sectionHeader: {
+    paddingTop: 2, 
+    paddingLeft: 10, 
+    paddingRight: 10, 
+    paddingBottom: 2, 
+    fontSize: 14, 
+    fontWeight: 'bold', 
+    backgroundColor: 'rgba(247,247,247,1.0)', 
+    color: 'black'
+  },
+}); 
+
+const SectionListBasics = () => { 
+  return ( 
+    <View style={styles.container}> 
+      <Text> 
+        SectionListBasic
+      </Text> 
+      <SectionList 
+      sections={[ 
+        { 
+          title: 'D', 
+          data: [ 
+            'Devin', 
+            'Dan', 
+            'Dominic'
+          ]
+        }, 
+        { 
+          title: 'J', 
+          data: [ 
+            'Jackson', 
+            'James', 
+            'Jillian', 
+            'Jimmy', 
+            'Joel', 
+            'John', 
+            'Julie'
+          ]
+        } 
+      ]} 
+      renderItem={({item}) => <Text style={styles.item}> 
+                                {item} 
+                              </Text>} 
+      renderSectionHeader={({section}) => <Text style={styles.sectionHeader}> 
+                                            {section.title} 
+                                          </Text>} 
+      keyExtractor={(item, index) => `basicListEntry-${item.title}`}
+      />
+    </View>
+  )
+}
+
+const FlatListBasics = () => { 
+  return ( 
+    <View style={styles.container}> 
+      <Text>
+        FlatListBasics
+      </Text>
+      <FlatList 
+      data={[ 
+        {key: 'Dan'}, 
+        {key: 'oven'},
+        {key: 'brown'},
+        {key: 'hrhr'},
+        {key: 'hmmmm'},
+        {key: 'haha'},
+        {key: 'ohhhhhh'},
+        {key: 'ohno D;'},
+        {key: 'yolo'},
+        {key: 'ooof'}, 
+        {key: 'Dan1'}, 
+        {key: 'oven1'},
+        {key: 'brown1'},
+        {key: 'hrhr1'},
+        {key: 'hmmmm1'},
+        {key: 'haha1'},
+        {key: 'ohhhhhh1'},
+        {key: 'ohno D;1'},
+        {key: 'yolo1'},
+        {key: 'ooof1'},
+      ]} 
+      renderItem={({item}) => <Text style={styles.item}> 
+                                {item.key}            
+                              </Text>}
+      />
+    </View>
+  )
+}
 
 const App = () => (  
   <>
@@ -177,7 +277,9 @@ class Cafe extends Component {
       <ScrollView> 
         <Text> 
           Welcome!
-        </Text>  
+        </Text> 
+        <SectionListBasics />
+        <FlatListBasics />
         <Cat /> 
         <CatFunction 
         name="marilou" 
